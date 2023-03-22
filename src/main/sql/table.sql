@@ -25,7 +25,7 @@ GO
 -- Create the table in the specified schema
 CREATE TABLE [campus].[user]
 (
-    user_id INT NOT NULL PRIMARY KEY IDENTITY, -- primary key column
+    user_id INT NOT NULL PRIMARY KEY IDENTITY,
     username [NVARCHAR](50) UNIQUE NOT NULL,
     password [CHAR](32) NOT NULL,
     nickname [NVARCHAR](50) NOT NULL,
