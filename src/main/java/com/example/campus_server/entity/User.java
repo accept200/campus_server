@@ -3,27 +3,27 @@ package com.example.campus_server.entity;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private String name;
-    private int age;
+    private int user_id;
+    private String nickname;
 
-    public User(String name, int age) {
-        this.name = name;
-        this.age = age;
+    public User(int user_id, String nickname) {
+        this.user_id = user_id;
+        this.nickname = nickname;
     }
 
-    public String getName() {
-        return name;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
-    public int getAge() {
-        return age;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }
