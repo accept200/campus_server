@@ -12,8 +12,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUser() {
         ArrayList<User> users = new ArrayList<>();
-        users.add(new User("Tom", 25));
-        users.add(new User("John", 30));
+        users.add(new User(1,"Tom"));
+        users.add(new User(2,"John"));
         return users;
     }
 }
