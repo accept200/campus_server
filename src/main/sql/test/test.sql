@@ -16,5 +16,10 @@ AND [campus].[post].[type_tag] = [campus].[ttag].[tag_id]
 AND [campus].[post].[status_tag] = [campus].[stag].[tag_id]
 GO
 
+SELECT * FROM [campus].[stag]
+GO
+
 SELECT * FROM [campus].[post_view]
 GO
+
+
