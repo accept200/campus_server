@@ -14,6 +14,7 @@ FROM [campus].[post], [campus].[user], [campus].[ttag], [campus].[stag]
 WHERE [campus].[post].[author_id] = [campus].[user].[user_id]
 AND [campus].[post].[type_tag] = [campus].[ttag].[tag_id]
 AND [campus].[post].[status_tag] = [campus].[stag].[tag_id]
+GO
 
-
+SELECT * FROM [campus].[post_view]
 GO
