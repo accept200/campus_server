@@ -81,3 +81,14 @@ DECLARE @user_id INT
 EXECUTE [campus].[login] N'zhangsan@abc.com', 'E10ADC3949BA59ABBE56E057F20F883E', @ret OUTPUT, @user_id OUTPUT
 SELECT @ret, @user_id
 GO
+
+DECLARE @ret INT
+DECLARE @user_id INT
+EXECUTE [campus].[login] N'ban@abc.com', '670B14728AD9902AECBA32E22FA4F6BD', @ret OUTPUT, @user_id OUTPUT
+SELECT @ret, @user_id
+GO
+
+DECLARE @ret INT
+EXECUTE [campus].[signup] N'ftb@abc.com', 'A9A708EEBBFD48267AFB1F146CAF5229', N'方某', @ret OUTPUT
+SELECT @ret
+GO
