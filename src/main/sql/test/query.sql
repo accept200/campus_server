@@ -70,3 +70,14 @@ GO
  );
  -- add more rows here
  GO
+
+DECLARE @exists BIT
+EXECUTE [campus].[if_username_exist] N'zhangsan@abc.com', @exists OUT
+SELECT @exists
+GO
+
+DECLARE @ret INT
+DECLARE @user_id INT
+EXECUTE [campus].[login] N'zhangsan@abc.com', 'E10ADC3949BA59ABBE56E057F20F883E', @ret OUTPUT, @user_id OUTPUT
+SELECT @ret, @user_id
+GO
