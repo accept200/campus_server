@@ -18,5 +18,8 @@ INSERT INTO [campus].[user] (username, password, nickname, privilege, user_info,
      N'管理员', 'A', N'管理员测试0000', getdate())
 INSERT INTO [campus].[user] (username, password, nickname, privilege, user_info, create_time) VALUES
     ('dev@abc.com', UPPER(SUBSTRING(sys.fn_VarBinToHexStr(HASHBYTES('MD5', 'T22yD%dNk!B1OyAAG%0Vq2^Mkce8u5V8')),3,32)),
-     N'DEV', 'A', N'DEV Account', getdate())
+     N'DEV', 'D', N'DEV Account', getdate())
+INSERT INTO [campus].[user] (username, password, nickname, privilege, user_info, create_time) VALUES
+    ('ban@abc.com', UPPER(SUBSTRING(sys.fn_VarBinToHexStr(HASHBYTES('MD5', '000000')),3,32)),
+    N'封禁', 'B', N'Banned Account', getdate())
 GO

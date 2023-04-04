@@ -29,4 +29,18 @@ public class UserController {
         Result<Object> result = ResultFactory.getSuccessResult("pong");
         return result;
     }
+
+    @RequestMapping(value = "/signup")
+    public Result signup(String username, String password, String nickname) {
+        int ret = userService.signup(username, password, nickname);
+        switch (ret) {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            default:
+        }
+        Result<Object> result = ResultFactory.getSuccessResult("success sign in");
+        return result;
+    }
 }

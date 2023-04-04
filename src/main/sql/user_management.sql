@@ -75,3 +75,43 @@ AS
         SET @user_id = -1
     END
 GO
+
+-- Create a new stored procedure called '[signup]' in schema '[campus]'
+-- Drop the stored procedure if it already exists
+IF EXISTS (
+SELECT *
+    FROM INFORMATION_SCHEMA.ROUTINES
+WHERE SPECIFIC_SCHEMA = N'campus'
+    AND SPECIFIC_NAME = N'signup'
+)
+DROP PROCEDURE [campus].[signup]
+GO
+-- Create the stored procedure in the specified schema
+CREATE PROCEDURE [campus].[signup]
+    @username [NVARCHAR](50), 
+    @password [char](32),
+    @nickname [NVARCHAR](50),
+    @ret [INT] OUTPUT
+    -- @ret 0: success
+    --      1: username exist
+    --      2: null values
+    --      3: internal error
+AS
+    -- body of the stored procedure
+    IF @username = NULL OR @password = NULL OR @nickname = NULL BEGIN
+        SET @ret = 2
+    END
+    ELSE BEGIN
+        DECLARE @if_exist BIT
+        EXECUTE [campus].[if_username_exist] @username, @if_exist OUTPUT
+        IF @if_exist = 1 BEGIN
+            SET @ret = 1
+        END
+        ELSE BEGIN
+            INSERT INTO [campus].[user] (username, [password], nickname, privilege, user_info )
+            VALUES (@username, @password, @nickname, 'U', N'')
+            SET @ret = 0
+        END     
+    END
+GO
+
