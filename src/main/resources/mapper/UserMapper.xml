@@ -17,16 +17,6 @@
                 #{nickname, mode=IN, jdbcType=NVARCHAR},
                 #{ret, mode=OUT, jdbcType=INTEGER})}
     </update>
-    <update id="login" statementType="CALLABLE" parameterType="Map">
-        {CALL [campus].[login](
-                              #{username, mode=IN, jdbcType=NVARCHAR},
-                             #{password, mode=IN, jdbcType=CHAR}
-            }
-            )
-
-        }
-
-    </update>
 
 
 
