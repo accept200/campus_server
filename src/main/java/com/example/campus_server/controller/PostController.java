@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/post")
-public class PostController {
+public class PostController extends BaseController {
 
     @RequestMapping(value = "/getallpost")
     public Result getAllPost() {

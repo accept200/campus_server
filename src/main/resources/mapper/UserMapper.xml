@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper xmlns="http://mybatis.org/schema/mybatis-mapper"
+ namespace="com.example.campus_server.dao.UserMapper">
+    <select id="addUser" statementType="CALLABLE" parameterType="map">
+        { CALL [campus].[signup] (
+            #{username, mode=IN, jdbcType=NVARCHAR},
+            #{password, mode=IN, jdbcType=NVARCHAR},
+            #{nickname, mode=IN, jdbcType=NVARCHAR},
+            #{ret, mode=OUT, jdbcType=INT}
+        )}
+    </select>
+</mapper>
