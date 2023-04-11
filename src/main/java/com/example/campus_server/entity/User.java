@@ -1,11 +1,17 @@
 package com.example.campus_server.entity;
 
+import lombok.Data;
+import org.apache.ibatis.type.Alias;
+
 import java.io.Serializable;
+@Data
+
+
 
 public class User implements Serializable {
+
     private int user_id;
     private String nickname;
-
     public User(int user_id, String nickname) {
         this.user_id = user_id;
         this.nickname = nickname;
@@ -26,4 +32,5 @@ public class User implements Serializable {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+
 }

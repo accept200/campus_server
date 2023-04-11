@@ -46,7 +46,7 @@ CREATE TABLE [campus].[user]
     -- D: Dev, A: Admin, U: User, G: Guest, B: Ban
     privilege [CHAR] NOT NULL DEFAULT 'U' CHECK (privilege IN ('D', 'A', 'U', 'G', 'B')), 
     user_info [NVARCHAR](1000),
-    create_time DATETIME NOT NULL DEFAULT (getdate())
+   -- create_time DATETIME NOT NULL DEFAULT (getdate())
     -- specify more columns here
 );
 GO
