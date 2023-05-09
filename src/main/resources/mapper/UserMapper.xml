@@ -3,7 +3,7 @@
 <mapper namespace="com.example.campus_server.mapper.UserMapper">
     <select id="getAllUser" resultType="com.example.campus_server.entity.User">
         SELECT user_id,nickname
-        FROM campus.[user]
+        FROM [campus].[user]
     </select>
     <update id="ifUsernameExist" parameterType="Map" statementType="CALLABLE">
         {CALL [campus].[if_username_exist](
@@ -17,8 +17,5 @@
                 #{nickname, mode=IN, jdbcType=NVARCHAR},
                 #{ret, mode=OUT, jdbcType=INTEGER})}
     </update>
-
-
-
 </mapper>
 
