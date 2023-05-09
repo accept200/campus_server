@@ -85,4 +85,19 @@ public class Post implements Serializable {
     public void setCreate_time(Date create_time) {
         this.create_time = create_time;
     }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "post_id=" + post_id +
+                ", author_id=" + author_id +
+                ", author_name='" + author_name + '\'' +
+                ", title='" + title + '\'' +
+                ", type_tag=" + type_tag +
+                ", ttag_name='" + ttag_name + '\'' +
+                ", status_tag=" + status_tag +
+                ", stag_name='" + stag_name + '\'' +
+                ", create_time=" + create_time +
+                '}';
+    }
 }

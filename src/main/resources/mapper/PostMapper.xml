@@ -3,5 +3,39 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.campus_server.mapper.PostMapper">
+    <resultMap id="Post" type="com.example.campus_server.entity.Post" autoMapping="true"/>
+    <resultMap id="PostDetail" type="com.example.campus_server.entity.PostDetail" autoMapping="true"/>
+    <select id="getAllPost" resultMap="Post">
+        SELECT post_id, author_id, author_name, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
+    </select>
 
+    <select id="getPostById" parameterType="int" resultMap="PostDetail">
+        SELECT * FROM campus.post_view
+        WHERE post_id = #{post_id}
+    </select>
+    
+    <select id="getPostOfUser" parameterType="int" resultMap="Post">
+        SELECT post_id, author_id, author_name, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
+        WHERE author_id = #{user_id}
+    </select>
+
+    <select id="getPostByTag" parameterType="int" resultMap="Post">
+        SELECT post_id, author_id, author_name, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
+        WHERE type_tag = #{tag_id} OR status_tag = #{tag_id}
+    </select>
+
+    <insert id="addPost">
+        INSERT INTO campus.post (title, content, type_tag, status_tag, author_id, create_time)
+        VALUES (#{post.title}, #{post.content}, #{post.type_tag}, #{post.status_tag}, #{user_id}, GETDATE())
+    </insert>
+
+    <delete id="deletePost" parameterType="int">
+        DELETE FROM campus.post
+        WHERE post_id = #{post_id}
+    </delete>
+
+    <delete id="deletePostOfUser" parameterType="int">
+        DELETE FROM campus.post
+        WHERE author_id = #{user_id}
+    </delete>
 </mapper>

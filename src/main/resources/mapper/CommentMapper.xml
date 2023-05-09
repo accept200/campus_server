@@ -3,5 +3,35 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.campus_server.mapper.CommentMapper">
+    <resultMap id="Comment" type="com.example.campus_server.entity.Comment" autoMapping="true"/>
 
+    <select id="getCommentById" parameterType="int" resultMap="Comment">
+        SELECT * FROM campus.comment
+        WHERE comment_id = #{comment_id}
+    </select>
+
+    <select id="getCommentOfPost" parameterType="int" resultMap="Comment">
+        SELECT * FROM campus.comment
+        WHERE comment_post = #{post_id}
+    </select>
+
+    <insert id="addComment">
+        INSERT INTO campus.comment (content, author_id, comment_post, parent_id, depth, create_time)
+        VALUES (#{comment}, #{user_id}, #{post_id}, 0, 0, GETDATE())
+    </insert>
+
+    <delete id="deleteComment" parameterType="int">
+        DELETE FROM campus.comment
+        WHERE comment_id = #{comment_id}
+    </delete>
+
+    <delete id="deleteCommentOfPost" parameterType="int">
+        DELETE FROM campus.comment
+        WHERE comment_post = #{post_id}
+    </delete>
+
+    <delete id="deleteCommentOfUser" parameterType="int">
+        DELETE FROM campus.comment
+        WHERE author_id = #{user_id}
+    </delete>
 </mapper>
