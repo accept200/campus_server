@@ -15,13 +15,23 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @RequestMapping(value = "getComment")
+    @RequestMapping(value = "comment")
     public Result getComment(int comment_id) {
         return null;
     }
 
-    @RequestMapping(value = "getCommentOfPost")
+    @RequestMapping(value = "postComment")
     public Result getCommentOfPost(int post_id) {
+        return null;
+    }
+
+    @RequestMapping(value = "newComment")
+    public Result addComment(int post_id, String comment) {
+        return null;
+    }
+
+    @RequestMapping(value = "deleteComment")
+    public Result deletePost(int post_id) {
         return null;
     }
 }
