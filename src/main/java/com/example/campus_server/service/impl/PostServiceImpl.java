@@ -3,6 +3,7 @@ package com.example.campus_server.service.impl;
 import com.example.campus_server.data.NewPost;
 import com.example.campus_server.entity.Post;
 import com.example.campus_server.entity.PostDetail;
+import com.example.campus_server.entity.Tag;
 import com.example.campus_server.mapper.CommentMapper;
 import com.example.campus_server.mapper.PostMapper;
 import com.example.campus_server.service.PostService;
@@ -46,7 +47,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getPostByTag(int tag_id) {
-        return postMapper.getPostByTag(tag_id);
+        Tag tag = postMapper.getTagById(tag_id);
+        if (tag == null) {
+            return null;
+        } else {
+            return postMapper.getPostByTag(tag_id);
+        }
     }
 
     @Override
@@ -62,4 +68,10 @@ public class PostServiceImpl implements PostService {
     public List<Post> searchPostInTitle(String keyword) {
         return postMapper.searchPostInTitle(keyword);
     }
+
+    @Override
+    public List<Tag> getAllTag() {
+        return postMapper.getAllTag();
+    }
+
 }

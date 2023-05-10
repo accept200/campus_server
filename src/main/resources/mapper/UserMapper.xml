@@ -55,5 +55,10 @@
             )
         }
     </update>
+
+    <update id="updateUserInfo">
+        UPDATE [campus].[user] SET nickname=#{nickname}, user_info=#{user_info}
+        WHERE user_id = #{user_id}
+    </update>
 </mapper>
 

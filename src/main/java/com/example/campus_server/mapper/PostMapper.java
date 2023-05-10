@@ -3,6 +3,7 @@ package com.example.campus_server.mapper;
 import com.example.campus_server.data.NewPost;
 import com.example.campus_server.entity.Post;
 import com.example.campus_server.entity.PostDetail;
+import com.example.campus_server.entity.Tag;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +20,6 @@ public interface PostMapper {
     public void deletePost(int post_id);
     public void deletePostOfUser(int user_id);
     public List<Post> searchPostInTitle(String keyword);
+    public List<Tag> getAllTag();
+    public Tag getTagById(int tag_id);
 }

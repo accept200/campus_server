@@ -47,4 +47,22 @@ public class CampusServerApplicationServiceTests {
         ret = userService.signup(username, password, nickname);
         Assertions.assertEquals(1, ret);
     }
+
+    @Test
+    void updatePasswordTest() {
+        int uid = 1;
+        String password = DigestUtils.md5DigestAsHex("123456".getBytes()).toUpperCase();
+        int ret = userService.updatePassword(uid, password, password);
+        Assertions.assertEquals(2, ret);
+        String new_password = DigestUtils.md5DigestAsHex("654321".getBytes()).toUpperCase();
+        ret = userService.updatePassword(uid, new_password, password);
+        Assertions.assertEquals(1, ret);
+        ret = userService.updatePassword(uid, password, new_password);
+        Assertions.assertEquals(0, ret);
+    }
+
+    @Test
+    void updateUserInfoTest() {
+
+    }
 }

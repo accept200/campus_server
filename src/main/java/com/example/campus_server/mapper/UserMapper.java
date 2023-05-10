@@ -29,6 +29,7 @@ public interface UserMapper {
 
     void updatePassword(Map<String, Object> params);
 
+    void updateUserInfo(int user_id, String nickname, String user_info);
 }
 
 

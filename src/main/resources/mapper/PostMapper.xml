@@ -5,6 +5,8 @@
 <mapper namespace="com.example.campus_server.mapper.PostMapper">
     <resultMap id="Post" type="com.example.campus_server.entity.Post" autoMapping="true"/>
     <resultMap id="PostDetail" type="com.example.campus_server.entity.PostDetail" autoMapping="true"/>
+    <resultMap id="Tag" type="com.example.campus_server.entity.Tag" autoMapping="true"/>
+    
     <select id="getAllPost" resultMap="Post">
         SELECT post_id, author_id, author_name, title, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
     </select>
@@ -42,5 +44,14 @@
     <select id="searchPostInTitle" parameterType="String" resultMap="Post">
         SELECT post_id, author_id, author_name, title, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
         WHERE title LIKE #{keyword}
+    </select>
+    
+    <select id="getAllTag" resultMap="Tag">
+        SELECT * FROM campus.tag
+    </select>
+
+    <select id="getTagById" parameterType="int" resultMap="Tag">
+        SELECT * FROM campus.tag
+        WHERE tag_id = #{tag_id}
     </select>
 </mapper>

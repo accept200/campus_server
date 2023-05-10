@@ -84,6 +84,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int updateUserInfo(int user_id, String nickname, String user_info) {
+        userMapper.updateUserInfo(user_id, nickname, user_info);
         return 0;
     }
 

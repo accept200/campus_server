@@ -68,18 +68,13 @@ public class UserController {
     @RequestMapping(value = "signup")
     public Result signup(String username, String password, String nickname) {
         int ret = userService.signup(username, password, nickname);
-        switch (ret) {
-            case 0:
-                return ResultFactory.getSuccessResult("注册成功");
-            case 1:
-                return ResultFactory.getErrorResult("用户名已存在");
-            case 2:
-                return ResultFactory.getErrorResult("参数不能为空");
-            case 3:
-                return ResultFactory.getErrorResult("内部错误");
-            default:
-                return ResultFactory.getErrorResult("未知错误");
-        }
+        return switch (ret) {
+            case 0 -> ResultFactory.getSuccessResult("注册成功");
+            case 1 -> ResultFactory.getErrorResult("用户名已存在");
+            case 2 -> ResultFactory.getErrorResult("参数不能为空");
+            case 3 -> ResultFactory.getErrorResult("内部错误");
+            default -> ResultFactory.getErrorResult("未知错误");
+        };
     }
 
     @RequestMapping(value = "logout")
@@ -99,12 +94,22 @@ public class UserController {
 
     @RequestMapping(value = "updatePassword")
     public Result updatePassword(@RequestHeader Map<String, String> headers, String old_password, String new_password) {
-        return null;
+        int uid = Integer.parseInt(headers.get("uid"));
+        int ret = userService.updatePassword(uid, old_password, new_password);
+        return switch (ret) {
+            case 0 -> ResultFactory.getSuccessResult("成功");
+            case 1 -> ResultFactory.getErrorResult("密码错误");
+            case 2 -> ResultFactory.getErrorResult("密码不能相同");
+            case 3 -> ResultFactory.getErrorResult("内部错误");
+            default -> ResultFactory.getErrorResult("未知错误");
+        };
     }
 
     @RequestMapping(value = "updateUserInfo")
     public Result updateUserInfo(@RequestHeader Map<String, String> headers, String new_nickname, String new_user_info) {
-        return null;
+        int uid = Integer.parseInt(headers.get("uid"));
+        int ret = userService.updateUserInfo(uid, new_nickname, new_user_info);
+        return ResultFactory.getSuccessResult("success", ret);
     }
 }
 
