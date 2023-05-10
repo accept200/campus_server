@@ -18,4 +18,5 @@ public interface PostMapper {
     public void addPost(int user_id, NewPost post);
     public void deletePost(int post_id);
     public void deletePostOfUser(int user_id);
+    public List<Post> searchPostInTitle(String keyword);
 }

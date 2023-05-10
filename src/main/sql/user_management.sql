@@ -57,7 +57,7 @@ AS
         DECLARE @pri CHAR
         SELECT @user_id = [user_id], @pri = [privilege] FROM [campus].[user]
         WHERE [username] = @username AND [password] = @password
-        IF @user_id = NULL BEGIN
+        IF @user_id IS NULL BEGIN
             SET @ret = 2
             SET @user_id = -1
         END
@@ -98,7 +98,7 @@ CREATE PROCEDURE [campus].[signup]
     --      3: internal error
 AS
     -- body of the stored procedure
-    IF @username = NULL OR @password = NULL OR @nickname = NULL BEGIN
+    IF @username IS NULL OR @password IS NULL OR @nickname IS NULL BEGIN
         SET @ret = 2
     END
     ELSE BEGIN
@@ -115,3 +115,40 @@ AS
     END
 GO
 
+-- Create a new stored procedure called '[update_password]' in schema '[campus]'
+-- Drop the stored procedure if it already exists
+IF EXISTS (
+SELECT *
+    FROM INFORMATION_SCHEMA.ROUTINES
+WHERE SPECIFIC_SCHEMA = N'campus'
+    AND SPECIFIC_NAME = N'update_password'
+)
+DROP PROCEDURE [campus].[update_password]
+GO
+-- Create the stored procedure in the specified schema
+CREATE PROCEDURE [campus].[update_password]
+    @user_id INT,
+    @old_password CHAR(32),
+    @new_password CHAR(32),
+    @ret INT OUTPUT
+-- @ret: 0: success
+--       1: password not correct
+--       2: same password
+--       3: internal error
+AS
+    DECLARE @pass CHAR(32)
+    SELECT @pass = [password] FROM [campus].[user]
+    WHERE [user].[user_id] = @user_id
+    IF @pass = @old_password BEGIN
+        IF @old_password = @new_password BEGIN
+            SET @ret = 2
+        END
+        ELSE BEGIN
+            UPDATE [campus].[user] SET [password] = @new_password
+            SET @ret = 0
+        END
+    END
+    ELSE BEGIN
+        SET @ret = 1
+    END  
+GO

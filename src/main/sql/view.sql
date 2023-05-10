@@ -112,6 +112,7 @@ AS
     SELECT [campus].[post].[post_id],
     [campus].[post].[author_id],
     [campus].[user].[nickname] AS [author_name],
+    [campus].[post].[title] AS [title],
     [campus].[post].[type_tag],
     [campus].[ttag].[tag_name] AS [ttag_name],
     [campus].[post].[status_tag],

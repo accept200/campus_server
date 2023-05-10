@@ -6,7 +6,7 @@
     <resultMap id="Post" type="com.example.campus_server.entity.Post" autoMapping="true"/>
     <resultMap id="PostDetail" type="com.example.campus_server.entity.PostDetail" autoMapping="true"/>
     <select id="getAllPost" resultMap="Post">
-        SELECT post_id, author_id, author_name, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
+        SELECT post_id, author_id, author_name, title, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
     </select>
 
     <select id="getPostById" parameterType="int" resultMap="PostDetail">
@@ -15,12 +15,12 @@
     </select>
     
     <select id="getPostOfUser" parameterType="int" resultMap="Post">
-        SELECT post_id, author_id, author_name, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
+        SELECT post_id, author_id, author_name, title, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
         WHERE author_id = #{user_id}
     </select>
 
     <select id="getPostByTag" parameterType="int" resultMap="Post">
-        SELECT post_id, author_id, author_name, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
+        SELECT post_id, author_id, author_name, title, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
         WHERE type_tag = #{tag_id} OR status_tag = #{tag_id}
     </select>
 
@@ -38,4 +38,9 @@
         DELETE FROM campus.post
         WHERE author_id = #{user_id}
     </delete>
+
+    <select id="searchPostInTitle" parameterType="String" resultMap="Post">
+        SELECT post_id, author_id, author_name, title, type_tag, ttag_name, status_tag, stag_name, create_time FROM campus.post_view
+        WHERE title LIKE #{keyword}
+    </select>
 </mapper>

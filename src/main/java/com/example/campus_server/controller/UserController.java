@@ -1,14 +1,19 @@
 package com.example.campus_server.controller;
 
-import com.example.campus_server.entity.User;
+import com.example.campus_server.data.LoginRet;
+import com.example.campus_server.entity.LoginInfo;
+import com.example.campus_server.entity.UserDetail;
+import com.example.campus_server.service.RedisService;
 import com.example.campus_server.service.UserService;
 import com.example.campus_server.utils.Result;
+import com.example.campus_server.utils.ResultFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/user")
@@ -16,45 +21,89 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private RedisService redisService;
 
     @RequestMapping("/getAllUser")
     @ResponseBody
-    public List<User> getAllUser() {
-        return userService.getAllUser();
+    public Result getAllUser(@RequestHeader Map<String, String> headers) {
+        int uid = Integer.parseInt(headers.get("uid"));
+        char priv = redisService.getUserPrivilege(uid);
+        if (priv == 'A') {
+            return ResultFactory.getSuccessResult("成功", userService.getAllUser());
+        } else {
+            return ResultFactory.getErrorResult("无权限");
+        }
     }
 
     @RequestMapping(value = "/ifUserExist")
-    public boolean ifUserExist(String username) {
-        return userService.isUsernameExist(username);
+    public Result ifUserExist(String username) {
+        if (userService.isUsernameExist(username))
+            return ResultFactory.getSuccessResult("用户名存在", true);
+        else
+            return ResultFactory.getSuccessResult("用户名不存在", false);
     }
 
     @RequestMapping(value = "login")
     public Result login(String username, String password) {
-        return null;
+        LoginRet ret = userService.login(username, password);
+        switch (ret.ret) {
+            case 0:
+                String uuid = redisService.userLogin(ret.uid);
+                redisService.setUserPrivilege(ret.uid, 'U');
+                return ResultFactory.getSuccessResult("登录成功", new LoginInfo(ret.uid, uuid));
+            case 1:
+                return ResultFactory.getErrorResult("用户名不存在");
+            case 2:
+                return ResultFactory.getErrorResult("密码错误");
+            case 3:
+                return ResultFactory.getErrorResult("用户被禁用");
+            case 4:
+                return ResultFactory.getErrorResult("内部错误");
+            default:
+                return ResultFactory.getErrorResult("未知错误");
+        }
     }
 
     @RequestMapping(value = "signup")
     public Result signup(String username, String password, String nickname) {
-        return null;
+        int ret = userService.signup(username, password, nickname);
+        switch (ret) {
+            case 0:
+                return ResultFactory.getSuccessResult("注册成功");
+            case 1:
+                return ResultFactory.getErrorResult("用户名已存在");
+            case 2:
+                return ResultFactory.getErrorResult("参数不能为空");
+            case 3:
+                return ResultFactory.getErrorResult("内部错误");
+            default:
+                return ResultFactory.getErrorResult("未知错误");
+        }
     }
 
     @RequestMapping(value = "logout")
-    public Result logout(int user_id) {
-        return null;
+    public Result logout(@RequestHeader Map<String, String> headers) {
+        int uid = Integer.parseInt(headers.get("uid"));
+        String token = headers.get("token");
+        redisService.userLogout(token);
+        return ResultFactory.getSuccessResult("退出成功");
     }
 
     @RequestMapping(value = "userInfo")
-    public Result getUserInfo(int user_id) {
-        return null;
+    public Result getUserInfo(@RequestHeader Map<String, String> headers) {
+        int uid = Integer.parseInt(headers.get("uid"));
+        UserDetail userDetail =  userService.getUserInfo(uid);
+        return ResultFactory.getSuccessResult("成功", userDetail);
     }
 
     @RequestMapping(value = "updatePassword")
-    public Result updatePassword(String old_password, String new_password) {
+    public Result updatePassword(@RequestHeader Map<String, String> headers, String old_password, String new_password) {
         return null;
     }
 
     @RequestMapping(value = "updateUserInfo")
-    public Result updateUserInfo(int user_id, String new_nickname, String new_user_info) {
+    public Result updateUserInfo(@RequestHeader Map<String, String> headers, String new_nickname, String new_user_info) {
         return null;
     }
 }

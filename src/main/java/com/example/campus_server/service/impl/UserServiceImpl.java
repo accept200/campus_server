@@ -1,14 +1,16 @@
 package com.example.campus_server.service.impl;
 
-import com.example.campus_server.mapper.UserMapper;
+import com.example.campus_server.data.LoginRet;
 import com.example.campus_server.entity.User;
-
+import com.example.campus_server.entity.UserDetail;
+import com.example.campus_server.mapper.UserMapper;
 import com.example.campus_server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 
 @Service(value = "UserService")
 public class UserServiceImpl implements UserService {
@@ -37,7 +39,7 @@ public class UserServiceImpl implements UserService {
 
     //用户注册
     @Override
-    public Integer signup(String username, String password, String nickname) {
+    public int signup(String username, String password, String nickname) {
         Map<String, Object> params = new HashMap<>();
         params.put("username", username);
         params.put("password", password);
@@ -48,5 +50,42 @@ public class UserServiceImpl implements UserService {
         //(Integer) result.get("ret");
         return ret;
     }
+
+    @Override
+    public LoginRet login(String username, String password) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("username", username);
+        params.put("password", password);
+        params.put("ret", null);
+        params.put("user_id", null);
+        userMapper.login(params);
+        LoginRet ret = new LoginRet();
+        ret.uid = (int) params.get("user_id");
+        ret.ret = (int) params.get("ret");
+        return ret;
+    }
+
+    @Override
+    public UserDetail getUserInfo(int user_id) {
+        return userMapper.getUserInfo(user_id);
+    }
+
+    @Override
+    public int updatePassword(int user_id, String old_password, String new_password) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user_id", user_id);
+        params.put("old_password", old_password);
+        params.put("new_password", new_password);
+        params.put("ret", null);
+        userMapper.updatePassword(params);
+        int ret = (int) params.get("ret");
+        return ret;
+    }
+
+    @Override
+    public int updateUserInfo(int user_id, String nickname, String user_info) {
+        return 0;
+    }
+
 
 }

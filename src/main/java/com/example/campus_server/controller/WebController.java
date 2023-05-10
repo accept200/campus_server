@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "/")
 public class WebController {
     @RequestMapping("signup")
-    public String signuo() {
+    public String signup() {
         return "signup";
     }
     @RequestMapping("login")

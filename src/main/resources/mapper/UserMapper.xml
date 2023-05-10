@@ -1,21 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.campus_server.mapper.UserMapper">
-    <select id="getAllUser" resultType="com.example.campus_server.entity.User">
+    <resultMap id="User" type="com.example.campus_server.entity.User" autoMapping="true"/>
+    <resultMap id="UserDetail" type="com.example.campus_server.entity.UserDetail" autoMapping="true"/>
+
+    <select id="getAllUser" resultMap="User">
         SELECT user_id,nickname
         FROM [campus].[user]
     </select>
+
     <update id="ifUsernameExist" parameterType="Map" statementType="CALLABLE">
         {CALL [campus].[if_username_exist](
             #{username, mode=IN, jdbcType=NVARCHAR},
             #{ifExist, mode=OUT, jdbcType=BIT})}
     </update>
+
     <update id="signup" statementType="CALLABLE" parameterType="Map">
-        {CALL [campus].[signup](
+        {
+            CALL [campus].[signup](
                 #{username, mode=IN, jdbcType=NVARCHAR},
                 #{password, mode=IN, jdbcType=CHAR},
                 #{nickname, mode=IN, jdbcType=NVARCHAR},
                 #{ret, mode=OUT, jdbcType=INTEGER})}
+    </update>
+
+    <update id="login" statementType="CALLABLE" parameterType="Map">
+        {
+            CALL [campus].[login](
+                #{username, mode=IN, jdbcType=NVARCHAR},
+                #{password, mode=IN, jdbcType=CHAR},
+                #{ret, mode=OUT, jdbcType=INTEGER},
+                #{user_id, mode=OUT, jdbcType=INTEGER}
+            )
+        }
+    </update>
+
+    <select id="getUserPrivilege" parameterType="int" resultType="char">
+        SELECT privilege FROM [campus].[user]
+        WHERE user_id = #{user_id}
+    </select>
+
+    <select id="getUserInfo" parameterType="int" resultMap="UserDetail">
+        SELECT user_id, nickname, user_info FROM [campus].[user]
+        WHERE user_id = #{user_id}
+    </select>
+
+    <update id="updatePassword" statementType="CALLABLE" parameterType="Map">
+        {
+            CALL [campus].[update_password](
+                #{user_id, mode=IN, jdbcType=INTEGER},
+                #{old_password, mode=IN, jdbcType=CHAR},
+                #{new_password, mode=IN, jdbcType=CHAR},
+                #{ret, mode=OUT, jdbcType=INTEGER}
+            )
+        }
     </update>
 </mapper>
 
