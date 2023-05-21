@@ -28,7 +28,7 @@
 
     <insert id="addPost">
         INSERT INTO campus.post (title, content, type_tag, status_tag, author_id, create_time)
-        VALUES (#{post.title}, #{post.content}, #{post.type_tag}, #{post.status_tag}, #{user_id}, GETDATE())
+        VALUES (#{post.title}, #{post.content}, #{post.ttag_id}, #{post.stag_id}, #{user_id}, GETDATE())
     </insert>
 
     <delete id="deletePost" parameterType="int">
